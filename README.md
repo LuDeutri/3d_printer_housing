@@ -12,7 +12,7 @@ Setup:
 - 450ml Sodastream (CO2)
 
 
-The printer is controlled by the Raspberry Pi with klipper firmware. To include diffrent led shows depending on printing status, there are 3 simple gpio inputs coming from the pi to the stm32. 
+The printer is controlled by the Raspberry Pi with klipper firmware. To include diffrent led shows depending on printing status, there are multiple simple gpio inputs coming from the pi to the stm32. 
 
 The MQ-2 sensor is used to detect a fire inside the casing. An CO2 fire extinguisher is euqiped (selfbuild), based on a sodastream CO2 gas bottle to extinguish the fire. 
 
