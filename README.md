@@ -5,7 +5,7 @@ Setup:
 - Anycubic Cobra Plus
 - Raspberry Pi 3A+
 - STM32F103 (Bluepill)
-- 2 Button
+- 3 Button
 - WS2811 RGB Leds
 - MQ-2 Gas sensor
 - electric controlled magnetic pneumatic valve
@@ -20,3 +20,5 @@ Overall the stm32 controls:
 - RGB LEDs
 - MQ2 data read out
 - electric pneumatic valve (fire extinguisher)
+- beeper
+- printer pwr sply
