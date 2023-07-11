@@ -1,0 +1,4 @@
+Record=TopLevelDocument|FileName=3d_printer_housing.SchDoc|SheetNumber=1
+Record=SheetSymbol|SourceDocument=3d_printer_housing.SchDoc|Designator=Controller|SchDesignator=Controller|FileName=controller.SchDoc|SheetNumber=2|SymbolType=Normal|RawFileName=controller.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=3d_printer_housing.SchDoc|Designator=electrRoom|SchDesignator=electrRoom|FileName=electrRoom.SchDoc|SheetNumber=3|SymbolType=Normal|RawFileName=electrRoom.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=3d_printer_housing.SchDoc|Designator=printerRoom|SchDesignator=printerRoom|FileName=printerRoom.SchDoc|SheetNumber= |SymbolType=Normal|RawFileName=printerRoom.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
