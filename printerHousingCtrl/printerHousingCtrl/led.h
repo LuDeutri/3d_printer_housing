@@ -1,7 +1,7 @@
 #ifndef LED_H_
 #define LED_H_
 
-#include "ARGB_stm32/Library/ARGB.h" // submodule FastLED for stm32
+#include "RGB_stm32/ARGB.h" // submodule FastLED for stm32
 #include "config.h"
 #include "button.h"
 #include "fireExtinguisher.h"

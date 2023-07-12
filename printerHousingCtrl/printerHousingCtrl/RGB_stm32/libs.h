@@ -9,7 +9,7 @@
 #ifndef LIBS_H_
 #define LIBS_H_
 
-#include "../../config.h"
+#include "../config.h"
 
 typedef uint8_t u8_t; 	///< 8-bit unsigned
 typedef int8_t i8_t;	///< 8-bit signed
