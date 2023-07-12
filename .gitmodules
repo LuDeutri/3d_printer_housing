@@ -1,3 +1,0 @@
-[submodule "printerHousingCtrl/printerHousingCtrl/ARGB_stm32"]
-	path = printerHousingCtrl/printerHousingCtrl/ARGB_stm32
-	url = https://github.com/Crazy-Geeks/STM32-ARGB-DMA.git
