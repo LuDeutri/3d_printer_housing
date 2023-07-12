@@ -3,6 +3,12 @@
 
 #include "config.h"
 
+typedef enum{
+	BUTTON_DISPLAY,
+	BUTTON_LED,
+	BUTTON_FIRE_EXTINGUISHER
+} buttons_t;
+
 typedef struct{
 	bool buttonLED;
 	bool buttonFireExtinguisher;
@@ -16,7 +22,7 @@ void button_update();
 
 void buttonReadState();
 
-bool getButtonState(uint8_t button);
+bool getButtonState(buttons_t button);
 uint32_t getButtonPressedTime();
 
 #endif

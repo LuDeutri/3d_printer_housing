@@ -59,16 +59,44 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define gas_sens_analog_Pin GPIO_PIN_0
-#define gas_sens_analog_GPIO_Port GPIOA
-#define gas_sens_digit_Pin GPIO_PIN_1
-#define gas_sens_digit_GPIO_Port GPIOA
-#define led_data_out_Pin GPIO_PIN_2
+#define debug_led_Pin GPIO_PIN_13
+#define debug_led_GPIO_Port GPIOC
+#define button_display_Pin GPIO_PIN_0
+#define button_display_GPIO_Port GPIOA
+#define button_led_Pin GPIO_PIN_1
+#define button_led_GPIO_Port GPIOA
+#define button_fireExtinguisher_Pin GPIO_PIN_2
+#define button_fireExtinguisher_GPIO_Port GPIOA
+#define led_data_out_Pin GPIO_PIN_3
 #define led_data_out_GPIO_Port GPIOA
-#define led_data_in_2_Pin GPIO_PIN_4
-#define led_data_in_2_GPIO_Port GPIOA
-#define led_data_in_3_Pin GPIO_PIN_5
-#define led_data_in_3_GPIO_Port GPIOA
+#define beeper_Pin GPIO_PIN_4
+#define beeper_GPIO_Port GPIOA
+#define valve_open_Pin GPIO_PIN_6
+#define valve_open_GPIO_Port GPIOA
+#define nScreensaver_Pin GPIO_PIN_7
+#define nScreensaver_GPIO_Port GPIOA
+#define gas_sens_analog_Pin GPIO_PIN_1
+#define gas_sens_analog_GPIO_Port GPIOB
+#define gas_sens_digital_Pin GPIO_PIN_10
+#define gas_sens_digital_GPIO_Port GPIOB
+#define printer_sply_ctrl_Pin GPIO_PIN_11
+#define printer_sply_ctrl_GPIO_Port GPIOB
+#define unused_0_Pin GPIO_PIN_12
+#define unused_0_GPIO_Port GPIOA
+#define unused_1_Pin GPIO_PIN_15
+#define unused_1_GPIO_Port GPIOA
+#define unused_2_Pin GPIO_PIN_3
+#define unused_2_GPIO_Port GPIOB
+#define pi_displayScreensaver_Pin GPIO_PIN_4
+#define pi_displayScreensaver_GPIO_Port GPIOB
+#define pi_printer_sply_ctrl_Pin GPIO_PIN_6
+#define pi_printer_sply_ctrl_GPIO_Port GPIOB
+#define pi_led_data_1_Pin GPIO_PIN_7
+#define pi_led_data_1_GPIO_Port GPIOB
+#define pi_led_data_2_Pin GPIO_PIN_8
+#define pi_led_data_2_GPIO_Port GPIOB
+#define pi_led_data_3_Pin GPIO_PIN_9
+#define pi_led_data_3_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

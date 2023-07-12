@@ -9,6 +9,7 @@
  */
 
 #include "config.h"
+#include "fireExtinguisher.h"
 
 typedef struct{
 	float gasSensAnalog;

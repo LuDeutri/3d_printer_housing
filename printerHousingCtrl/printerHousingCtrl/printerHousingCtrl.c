@@ -1,18 +1,20 @@
 #include "printerHousingCtrl.h"
 
 bool printerSplyActive;
-bool displayTimeout;
+bool raspiPrinterSplyInput;
 
 void printerHousingCtrl_init(){
 	// Init variables
 	printerSplyActive = true;
-	displayTimeout = false;
+	raspiPrinterSplyInput = true;
 
 	// Init modules
 	button_init();
 	fireExtinguisher_init();
 	gasSensor_init();
 	led_init();
+	screensaver_init();
+	printer_init();
 }
 
 void printerHousingCtrl_main(){
@@ -35,39 +37,28 @@ void printerHousingCtrl_main(){
 		fireExtinguisher_update();
 		beeper_update();
 		led_update();
+		screensaver_update();
+		printer_update();
 
 		// Activate fire extinguisher sequence if fire is detected or the button is pressed
 		if (getButtonState(BUTTON_FIRE_EXTINGUISHER) || gasSensor.fireDetected)
 			fireExtinguisherStartCount();
 
 		// Toggle debug led
-		HAL_GPIO_WritePin(digMapPeriphal[DEBUG_LED], digMapChannel[DEBUG_LED], clock() % 1000 < 500);
+		HAL_GPIO_WritePin(debug_led_GPIO_Port, debug_led_Pin, clock() % 1000 < 500);
 	}
 }
 
 void updatePiInput(){
 	// LED raspi pi inputs update
-	uint8_t tmpDataInOne = HAL_GPIO_ReadPin(digMapPeriphal[LED_DATA_IN_ONE], digMapChannel[LED_DATA_IN_ONE]);
-	uint8_t tmpDataInTwo = HAL_GPIO_ReadPin(digMapPeriphal[LED_DATA_IN_TWO], digMapChannel[LED_DATA_IN_TWO]);
-	uint8_t tmpDataInThree = HAL_GPIO_ReadPin(digMapPeriphal[LED_DATA_IN_THREE], digMapChannel[LED_DATA_IN_THREE]);
+	uint8_t tmpDataInOne = HAL_GPIO_ReadPin(pi_led_data_1_GPIO_Port, pi_led_data_1_Pin);
+	uint8_t tmpDataInTwo = HAL_GPIO_ReadPin(pi_led_data_2_GPIO_Port, pi_led_data_2_Pin);
+	uint8_t tmpDataInThree = HAL_GPIO_ReadPin(pi_led_data_3_GPIO_Port, pi_led_data_3_Pin);
 #pragma warning(push, 0)
 	leds.ledDataIn = (tmpDataInOne << 2) || (tmpDataInTwo << 1) || (tmpDataInThree);
 #pragma warning(pop)
 
 	// Printer supply input update
-	printerSplyActive = HAL_GPIO_ReadPin(digMapPeriphal[PI_PRINTER_SPLY], digMapChannel[PI_PRINTER_SPLY]);
-	// TODO Display timeout
-}
-
-void printerSupplyCtrl_update(){
-	HAL_GPIO_WritePin(digMapPeriphal[PRINTER_SPLY_CTRL], digMapChannel[PRINTER_SPLY_CTRL], printerSplyActive);
-}
-
-void setPrinterSplyCtrl(bool splyCtrl){
-	printerSplyActive = splyCtrl;
-}
-
-void toogleDisplayTimeout(){
-	displayTimeout = !displayTimeout;
-	HAL_GPIO_WritePin(digMapPeriphal[DISPLAY_TIMEOUT], digMapChannel[DISPLAY_TIMEOUT], displayTimeout);
+	printer.splyCtrlRaspiInput = HAL_GPIO_ReadPin(pi_printer_sply_ctrl_GPIO_Port, pi_printer_sply_ctrl_Pin);
+	screensaver.raspiInput = HAL_GPIO_ReadPin(pi_displayScreensaver_GPIO_Port, pi_displayScreensaver_Pin);
 }

@@ -26,7 +26,7 @@ void gasSensor_update(){
 }
 
 void gasSensorReadData(){
-	gasSensor.gasSensDig = HAL_GPIO_ReadPin(digMapPeriphal[GAS_SENSOR_DIGIT_INPUT], digMapChannel[GAS_SENSOR_DIGIT_INPUT]);
+	gasSensor.gasSensDig = HAL_GPIO_ReadPin(gas_sens_digital_GPIO_Port, gas_sens_digital_Pin);
 
 	if (useAnalogGasValue){
 		// TODO Read out analog data of gas sensor

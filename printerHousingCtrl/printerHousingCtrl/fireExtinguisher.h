@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include "button.h"
+#include "printer.h"
 
 typedef struct{
 	bool beeperActive;

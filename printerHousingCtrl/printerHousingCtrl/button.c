@@ -28,20 +28,20 @@ void button_update(){
 void buttonReadState(){
 	// If-else is used to skip the left buttons if one is pressed
 #pragma warning(push, 0)
-	if(buttons.buttonFireExtinguisher = HAL_GPIO_ReadPin(digMapPeriphal[BUTTON_FIRE_EXTINGUISHER], digMapChannel[BUTTON_FIRE_EXTINGUISHER]));
-	else if(buttons.buttonLED = HAL_GPIO_ReadPin(digMapPeriphal[BUTTON_LED_CTRL], digMapChannel[BUTTON_LED_CTRL]));
-	else buttons.buttonDisplay = HAL_GPIO_ReadPin(digMapPeriphal[BUTTON_DISPLAY], digMapChannel[BUTTON_DISPLAY]);
+	if(buttons.buttonFireExtinguisher = HAL_GPIO_ReadPin(button_fireExtinguisher_GPIO_Port, button_fireExtinguisher_Pin));
+	else if(buttons.buttonLED = HAL_GPIO_ReadPin(button_led_GPIO_Port, button_led_Pin));
+	else buttons.buttonDisplay = HAL_GPIO_ReadPin(button_display_GPIO_Port, button_display_Pin);
 #pragma warning(pop)
 }
 
-bool getButtonState(uint8_t button){
+bool getButtonState(buttons_t button){
 	if(buttons.buttonAlreadyUsed)
 		return false;
 
 	switch(button){
 	case BUTTON_FIRE_EXTINGUISHER:
 		return buttons.buttonFireExtinguisher;
-	case BUTTON_LED_CTRL:
+	case BUTTON_LED:
 		return buttons.buttonLED;
 	case BUTTON_DISPLAY:
 		return buttons.buttonDisplay;

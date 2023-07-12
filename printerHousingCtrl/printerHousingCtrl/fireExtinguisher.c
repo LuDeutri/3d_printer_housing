@@ -45,6 +45,9 @@ void fireExtinguisherActivate(){
 	// Set time valve opened
 	fireExtinguisher.activatingTime = clock();
 
+	// Shutdown printer
+	printerShutdown();
+
 	// Open valve
 	fireExtinguisher.valveState = OPENED;
 }
@@ -58,15 +61,15 @@ void fireExtinguisherStop(){
 void beeper_update(){
 	// If beeper should not be active, mute and return the method
 	if (!fireExtinguisher.beeper.beeperActive){
-		HAL_GPIO_WritePin(digMapPeriphal[BEEPER], digMapChannel[BEEPER], LOW);
+		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, LOW);
 		return;
 	}
 
 	// First beep fast, after TIME_REDUCE_BEEPER beep every minute for one second
 	if(fireExtinguisher.activatingTime < clock() + TIME_REDUCE_BEEPER)
-		HAL_GPIO_WritePin(digMapPeriphal[BEEPER], digMapChannel[BEEPER], clock() % 400 < 200);
+		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, clock() % 400 < 200);
 	else
-		HAL_GPIO_WritePin(digMapPeriphal[BEEPER], digMapChannel[BEEPER], clock() % 60000 < 1000);
+		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, clock() % 60000 < 1000);
 }
 
 void beeperStart(){
@@ -78,7 +81,7 @@ void beeperStop(){
 }
 
 void valve_update(){
-	HAL_GPIO_WritePin(digMapPeriphal[VAVLE_FIRE_EXTINGUISHER], digMapChannel[VAVLE_FIRE_EXTINGUISHER], fireExtinguisher.valveState);
+	HAL_GPIO_WritePin(valve_open_GPIO_Port, valve_open_Pin, fireExtinguisher.valveState);
 }
 
 

@@ -49,7 +49,7 @@ void led_update() {
 		startAnimationLED();
 
 	// Button ctrl, next state if button pressed
-	if(getButtonState(BUTTON_LED_CTRL))
+	if(getButtonState(BUTTON_LED))
 		nextState();
 
 	// Update LEDs depending on raspi pi data input

@@ -1,5 +1,4 @@
-#ifndef PRINTERHOUSINGCTRL_H_
-#define PRINTERHOUSINGCTRL_H_
+#pragma once
 
 // Module includes
 #include "led.h"
@@ -7,17 +6,10 @@
 #include "button.h"
 #include "config.h"
 #include "fireExtinguisher.h"
-
-extern bool printerSplyActive;
-extern bool displayTimeout;
+#include "displayScreensaver.h"
+#include "printer.h"
 
 void printerHousingCtrl_init();
 void printerHousingCtrl_main();
 
 void updatePiInput();
-void printerSupplyCtrl_update();
-void setPrinterSplyCtrl(bool splyCtrl);
-
-void toogleDisplayTimeout();
-
-#endif
