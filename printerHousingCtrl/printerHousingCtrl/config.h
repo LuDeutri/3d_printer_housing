@@ -22,10 +22,10 @@
 #define HIGH 1
 #define LOW 0
 #define FORWARD 1
-#define BACKWARD 0
+#define BACKWARD -1
 
 // LED strips
-#define NUM_LED 141
+#define NUM_LED 6
 #define NUM_LED_STRIP_BOTTOM_LEFT 15 	// In the electronics area under the printer
 #define NUM_LED_STRIP_LEFT 36			// Left to the printer
 #define NUM_LED_STRIP_TOP 39			// About the printer
@@ -33,6 +33,7 @@
 #define NUM_LED_STRIP_BOTTOM_RIGHT 15	// In the electronics area under the printer
 #define LED_BRIGHTNESS 255				// 0 ... 255
 #define TIME_STARTING_ANIMATION 3000	// Duration of the start animation
+#define ENABLE_START_ANIMATION 0
 
 // Fire extinguisher
 #define FIRE_EXTINGUISHER_TRIGGER_TIMER 20000 		// time until co2 valve is opening

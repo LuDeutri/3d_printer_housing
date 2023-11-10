@@ -1,16 +1,15 @@
 #ifndef LED_H_
 #define LED_H_
 
-#include "RGB_stm32/ARGB.h" // submodule FastLED for stm32
+#include "WS281x_stm32/ws2812.h"
 #include "config.h"
 #include "button.h"
 #include "fireExtinguisher.h"
 
-
 #define TIME_FADE 10
 #define RAINBOW_SAME_COLOUR_LEDS 2
 #define RAINBOW_NUM_COLOURS 7
-#define RUNNING_LIGHT_NUM_LEDS 3
+#define RUNNING_LIGHT_NUM_LEDS 1
 
 // Statemachine states of the led strip
 typedef enum{
@@ -47,10 +46,10 @@ void nextState();
 
 void loopPulseColour(colour_t colour);
 void loopRainbow();
-void loopRunningLight(colour_t colour, uint8_t runningLightIndex, uint8_t offset, bool direction);
+void loopRunningLight(colour_t colour, uint8_t runningLightIndex, uint8_t offset, int8_t direction);
 
 void fill_rainbow(uint8_t counter);
-void runningLight(colour_t colour, uint8_t index);
+void runningLight(colour_t colour, uint8_t index, int8_t direction);
 
 bool isTimeExpired(uint32_t milliseconds);
 

@@ -34,13 +34,12 @@ void led_init(){
 	runningLightIndex1 = 0;
 	runningLightIndex2 = 0;
 	runningLightIndex3 = 0;
-	startAnimation = true;
+	startAnimation = ENABLE_START_ANIMATION;
 
 	startTimeTimeExpired = 0;
 
-	ARGB_Init();
-	ARGB_Clear();
-	ARGB_SetBrightness(LED_BRIGHTNESS);
+	ws2812_init();
+
 }
 
 void led_update() {
@@ -65,16 +64,16 @@ void led_update() {
 	//	TODO Statemachine for leds
 	switch(leds.state){
 	case LED_STATE_WHITE:
-		ARGB_FillRGB(white.r, white.g, white.b);
-		break;
+		setWHOLEcolor(white.r, white.g, white.b);
+	break;
 	case LED_STATE_GREEN:
-		ARGB_FillRGB(green.r, green.g, green.b);
+		setWHOLEcolor(green.r, green.g, green.b);
 	break;
 	case LED_STATE_BLUE:
-		ARGB_FillRGB(blue.r, blue.g, blue.b);
+		setWHOLEcolor(blue.r, blue.g, blue.b);
 	break;
 	case LED_STATE_RED:
-		ARGB_FillRGB(red.r, red.g, red.b);
+		setWHOLEcolor(red.r, red.g, red.b);
 	break;
 	case LED_STATE_GREEN_FADE:
 		loopPulseColour(green);
@@ -86,12 +85,14 @@ void led_update() {
 		loopRainbow();
 	break;
 	case LED_STATE_OFF:
-		ARGB_Clear();
+		setWHOLEcolor(0,0,0);
+	break;
+	default:
+		// You should never be here
 	break;
 	}
-
-	if(ARGB_Ready() == (ARGB_READY || ARGB_OK))
-		ARGB_Show();
+	// Update led string
+	ws2812_update();
 }
 
 void startAnimationLED(){
@@ -151,8 +152,8 @@ void loopPulseColour(colour_t colour) {
     }
   }
 
-  ARGB_SetBrightness(fadeBrightness);
-  ARGB_FillRGB(colour.r, colour.g, colour.b);
+  // TODO set brighthness fadeBrighntess
+  setWHOLEcolor(colour.r, colour.g, colour.b);
 }
 
 void loopRainbow(){
@@ -160,9 +161,11 @@ void loopRainbow(){
 	rainbowCounter++;
 }
 
-void loopRunningLight(colour_t colour, uint8_t runningLightIndex, uint8_t offset, bool direction){
-	runningLight(colour, runningLightIndex + offset);
-	if(direction){
+void loopRunningLight(colour_t colour, uint8_t runningLightIndex, uint8_t offset, int8_t direction){
+
+	runningLight(colour, runningLightIndex + offset, direction);
+
+	if(FORWARD){
 		if(runningLightIndex >= NUM_LED - RUNNING_LIGHT_NUM_LEDS) return;
 		runningLightIndex += RUNNING_LIGHT_NUM_LEDS;
 	} else {
@@ -171,9 +174,9 @@ void loopRunningLight(colour_t colour, uint8_t runningLightIndex, uint8_t offset
 	}
 }
 
-void runningLight(colour_t colour, uint8_t index){
-	for(int i = index; i < index + RUNNING_LIGHT_NUM_LEDS; i++){
-		ARGB_SetRGB(index, colour.r, colour.g, colour.b);
+void runningLight(colour_t colour, uint8_t index, int8_t direction){
+	for(int i = index; i < index + (direction*RUNNING_LIGHT_NUM_LEDS); i=i+(1*direction)){
+		setLEDcolor(index, colour.r, colour.g, colour.b);
 	}
 }
 
@@ -201,6 +204,6 @@ void fill_rainbow(uint8_t counter){
 	for(uint8_t i=1; i < NUM_LED-RAINBOW_SAME_COLOUR_LEDS-1; i++){
 		rainbowColour = rainbowColourArr[i % RAINBOW_NUM_COLOURS + counter];
 
-		ARGB_SetRGB(i+RAINBOW_SAME_COLOUR_LEDS-2,rainbowColour.r, rainbowColour.g, rainbowColour.b);
+		setLEDcolor(i+RAINBOW_SAME_COLOUR_LEDS-2,rainbowColour.r, rainbowColour.g, rainbowColour.b);
 	}
 }

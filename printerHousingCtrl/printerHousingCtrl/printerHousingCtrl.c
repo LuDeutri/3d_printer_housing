@@ -20,11 +20,8 @@ void printerHousingCtrl_init(){
 void printerHousingCtrl_main(){
 
 	// Wait for finished init
-	if (clock() < 500)
+	if (HAL_GetTick() < 500)
 		return;
-
-	// Init variables
-	printerHousingCtrl_init();
 
 	// Main loop
 	while(true){
@@ -45,7 +42,7 @@ void printerHousingCtrl_main(){
 			fireExtinguisherStartCount();
 
 		// Toggle debug led
-		HAL_GPIO_WritePin(debug_led_GPIO_Port, debug_led_Pin, clock() % 1000 < 500);
+		HAL_GPIO_WritePin(debug_led_GPIO_Port, debug_led_Pin, HAL_GetTick() % 1000 < 500);
 	}
 }
 
