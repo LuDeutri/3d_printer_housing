@@ -31,10 +31,10 @@ void printerHousingCtrl_main(){
 
 		// Update submodules
 		gasSensor_update();
-		fireExtinguisher_update();
+		//fireExtinguisher_update();
 		beeper_update();
 		led_update();
-		screensaver_update();
+		//screensaver_update();
 		printer_update();
 
 		// Activate fire extinguisher sequence if fire is detected or the button is pressed
@@ -51,9 +51,9 @@ void updatePiInput(){
 	uint8_t tmpDataInOne = HAL_GPIO_ReadPin(pi_led_data_1_GPIO_Port, pi_led_data_1_Pin);
 	uint8_t tmpDataInTwo = HAL_GPIO_ReadPin(pi_led_data_2_GPIO_Port, pi_led_data_2_Pin);
 	uint8_t tmpDataInThree = HAL_GPIO_ReadPin(pi_led_data_3_GPIO_Port, pi_led_data_3_Pin);
-#pragma warning(push, 0)
-	leds.ledDataIn = (tmpDataInOne << 2) || (tmpDataInTwo << 1) || (tmpDataInThree);
-#pragma warning(pop)
+//#pragma warning(push, 0)
+	leds.ledDataIn = (tmpDataInOne << 2) | (tmpDataInTwo << 1) | (tmpDataInThree);
+//#pragma warning(pop)
 
 	// Printer supply input update
 	printer.splyCtrlRaspiInput = HAL_GPIO_ReadPin(pi_printer_sply_ctrl_GPIO_Port, pi_printer_sply_ctrl_Pin);

@@ -61,12 +61,12 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define debug_led_Pin GPIO_PIN_13
 #define debug_led_GPIO_Port GPIOC
-#define button_display_Pin GPIO_PIN_0
-#define button_display_GPIO_Port GPIOA
-#define button_led_Pin GPIO_PIN_1
-#define button_led_GPIO_Port GPIOA
-#define button_fireExtinguisher_Pin GPIO_PIN_2
-#define button_fireExtinguisher_GPIO_Port GPIOA
+#define btn_display_Pin GPIO_PIN_0
+#define btn_display_GPIO_Port GPIOA
+#define btn_led_Pin GPIO_PIN_1
+#define btn_led_GPIO_Port GPIOA
+#define btn_fire_ExGuisher_Pin GPIO_PIN_2
+#define btn_fire_ExGuisher_GPIO_Port GPIOA
 #define led_data_out_Pin GPIO_PIN_3
 #define led_data_out_GPIO_Port GPIOA
 #define beeper_Pin GPIO_PIN_4

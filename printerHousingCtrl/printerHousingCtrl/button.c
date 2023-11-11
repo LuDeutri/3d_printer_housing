@@ -16,7 +16,7 @@ void button_update(){
 
 	if((buttons.buttonDisplay || buttons.buttonFireExtinguisher || buttons.buttonLED))
 		if (buttons.buttonPressedStartTime == 0)
-			buttons.buttonPressedStartTime = clock();
+			buttons.buttonPressedStartTime = HAL_GetTick();
 		else
 			buttons.buttonAlreadyUsed = true;
 	else {
@@ -28,9 +28,9 @@ void button_update(){
 void buttonReadState(){
 	// If-else is used to skip the left buttons if one is pressed
 #pragma warning(push, 0)
-	if(buttons.buttonFireExtinguisher = HAL_GPIO_ReadPin(button_fireExtinguisher_GPIO_Port, button_fireExtinguisher_Pin));
-	else if(buttons.buttonLED = HAL_GPIO_ReadPin(button_led_GPIO_Port, button_led_Pin));
-	else buttons.buttonDisplay = HAL_GPIO_ReadPin(button_display_GPIO_Port, button_display_Pin);
+	if(buttons.buttonFireExtinguisher = !HAL_GPIO_ReadPin(btn_fire_ExGuisher_GPIO_Port, btn_fire_ExGuisher_Pin));
+	else if(buttons.buttonLED = !HAL_GPIO_ReadPin(btn_led_GPIO_Port, btn_led_Pin));
+	else buttons.buttonDisplay = !HAL_GPIO_ReadPin(btn_display_GPIO_Port, btn_display_Pin);
 #pragma warning(pop)
 }
 
@@ -52,5 +52,5 @@ bool getButtonState(buttons_t button){
 }
 
 uint32_t getButtonPressedTime(){
-	return clock() - buttons.buttonPressedStartTime;
+	return HAL_GetTick() - buttons.buttonPressedStartTime;
 }

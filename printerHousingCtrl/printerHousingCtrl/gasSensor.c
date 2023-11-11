@@ -21,7 +21,7 @@ void gasSensor_update(){
 		gasSensor.fireDetected = true;
 
 	// Activate fire extinguisher after a defined error delay
-	if(gasSensor.fireDetected && gasSensor.fireDetectedTime + ERR_DELAY_FIRE_DETECTED > clock())
+	if(gasSensor.fireDetected && gasSensor.fireDetectedTime + ERR_DELAY_FIRE_DETECTED > HAL_GetTick())
 		fireExtinguisherActivate();
 }
 

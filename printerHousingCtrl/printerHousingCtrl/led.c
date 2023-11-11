@@ -59,7 +59,7 @@ void led_update() {
 
 	// Overwrite led status if fire is detected
 	if(fireExtinguisher.activatingTime != 0)
-		nextStateLED(LED_STATE_RED_FADE);
+		//nextStateLED(LED_STATE_RED_FADE);
 
 	//	TODO Statemachine for leds
 	switch(leds.state){
@@ -185,12 +185,12 @@ bool isTimeExpired(uint32_t milliseconds) {
 
 	// Set start und end time in the first method run
 	if(startTimeTimeExpired == 0){
-		startTimeTimeExpired = clock();
+		startTimeTimeExpired = HAL_GetTick();
 		endTime = startTimeTimeExpired + milliseconds * CLOCKS_PER_SEC / 1000;
 	}
 
 	// Proof if the time is expired
-    if(clock() >= endTime){
+    if(HAL_GetTick() >= endTime){
     	startTimeTimeExpired = 0;	// Reset start time and return true
     	return true;
     }

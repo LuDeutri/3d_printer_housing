@@ -296,8 +296,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(debug_led_GPIO_Port, debug_led_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, button_display_Pin|button_led_Pin|button_fireExtinguisher_Pin|beeper_Pin
-                          |valve_open_Pin|nScreensaver_Pin|unused_0_Pin|unused_1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, beeper_Pin|valve_open_Pin|nScreensaver_Pin|unused_0_Pin
+                          |unused_1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, printer_sply_ctrl_Pin|unused_2_Pin, GPIO_PIN_RESET);
@@ -309,11 +309,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(debug_led_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : button_display_Pin button_led_Pin button_fireExtinguisher_Pin */
-  GPIO_InitStruct.Pin = button_display_Pin|button_led_Pin|button_fireExtinguisher_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  /*Configure GPIO pins : btn_display_Pin btn_led_Pin btn_fire_ExGuisher_Pin */
+  GPIO_InitStruct.Pin = btn_display_Pin|btn_led_Pin|btn_fire_ExGuisher_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : beeper_Pin valve_open_Pin nScreensaver_Pin unused_0_Pin

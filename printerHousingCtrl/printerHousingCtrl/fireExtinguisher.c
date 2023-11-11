@@ -23,18 +23,18 @@ void fireExtinguisher_update(){
 		fireExtinguisherStop();
 
 	// Start extinguishing action
-	if(clock() > fireExtinguisher.activatingTime + FIRE_EXTINGUISHER_TRIGGER_TIMER)
+	if(HAL_GetTick() > fireExtinguisher.activatingTime + FIRE_EXTINGUISHER_TRIGGER_TIMER)
 		fireExtinguisherActivate();
 
 	// Reduce the beeper and the LED fade after a defined time
-	if(clock() > fireExtinguisher.activatingTime + TIME_REDUCE_BEEPER)
+	if(HAL_GetTick() > fireExtinguisher.activatingTime + TIME_REDUCE_BEEPER)
 		fireExtinguisher.standby = true;
 		// Note: Beeper change is handled in beeper_update() in printerHousingCtrl.c
 		// Note: LEDs going into off state handled in printerHousingCtrl.c
 }
 
 void fireExtinguisherStartCount(){
-	fireExtinguisher.sequenceStartTime = clock(); // Countdown starts
+	fireExtinguisher.sequenceStartTime = HAL_GetTick(); // Countdown starts
 
 	beeperStart(); // Activate Beeper
 
@@ -43,7 +43,7 @@ void fireExtinguisherStartCount(){
 
 void fireExtinguisherActivate(){
 	// Set time valve opened
-	fireExtinguisher.activatingTime = clock();
+	fireExtinguisher.activatingTime = HAL_GetTick();
 
 	// Shutdown printer
 	printerShutdown();
@@ -60,16 +60,16 @@ void fireExtinguisherStop(){
 
 void beeper_update(){
 	// If beeper should not be active, mute and return the method
-	if (!fireExtinguisher.beeper.beeperActive){
+	if (fireExtinguisher.beeper.beeperActive){
 		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, LOW);
 		return;
 	}
 
 	// First beep fast, after TIME_REDUCE_BEEPER beep every minute for one second
-	if(fireExtinguisher.activatingTime < clock() + TIME_REDUCE_BEEPER)
-		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, clock() % 400 < 200);
+	if(fireExtinguisher.activatingTime < HAL_GetTick() + TIME_REDUCE_BEEPER)
+		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 400 < 200);
 	else
-		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, clock() % 60000 < 1000);
+		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 60000 < 1000);
 }
 
 void beeperStart(){

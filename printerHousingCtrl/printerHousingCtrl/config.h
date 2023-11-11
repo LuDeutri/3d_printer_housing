@@ -25,7 +25,7 @@
 #define BACKWARD -1
 
 // LED strips
-#define NUM_LED 6
+#define NUM_LED 141
 #define NUM_LED_STRIP_BOTTOM_LEFT 15 	// In the electronics area under the printer
 #define NUM_LED_STRIP_LEFT 36			// Left to the printer
 #define NUM_LED_STRIP_TOP 39			// About the printer

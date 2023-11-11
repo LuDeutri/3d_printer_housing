@@ -11,7 +11,7 @@ void screensaver_init(){
 
 void screensaver_update(){
 	// Reset ignore statemant after defined time if it is set to true
-	if(screensaver.ignoreRaspiInput && clock() > raspiIgnoreStartTime + RESET_RASPI_DISPLAYSCREENSAVER_INPUT_IGNORE)
+	if(screensaver.ignoreRaspiInput && HAL_GetTick() > raspiIgnoreStartTime + RESET_RASPI_DISPLAYSCREENSAVER_INPUT_IGNORE)
 		screensaver.ignoreRaspiInput = false;
 
 	// Toggle screensaver if the button is pressed
@@ -28,11 +28,11 @@ void screensaver_update(){
 void tooglDisplayScreensaver(){
 	screensaver.displayScreensaverActive ^= 1;
 	screensaver.ignoreRaspiInput = true;
-	raspiIgnoreStartTime = clock();
+	raspiIgnoreStartTime = HAL_GetTick();
 }
 
 void setDisplayScreensaver(bool displayTimeout){
 	screensaver.displayScreensaverActive = displayTimeout;
 	screensaver.ignoreRaspiInput = true;
-	raspiIgnoreStartTime = clock();
+	raspiIgnoreStartTime = HAL_GetTick();
 }
