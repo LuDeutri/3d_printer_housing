@@ -166,9 +166,6 @@ void TIMx_DMA_IRQHandler(void) {
 
 */
 
-#define MAX_LED 8
-#define USE_BRIGHTNESS 0
-
 
 uint8_t LED_Data[MAX_LED][4];
 uint8_t LED_Mod[MAX_LED][4];  // for brightness
@@ -177,7 +174,7 @@ int datasentflag=0;
 
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
-	HAL_TIM_PWM_Stop_DMA(&htim1, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);
 	datasentflag=1;
 }
 
@@ -247,7 +244,7 @@ void WS2812_Send (void)
 		indx++;
 	}
 
-	HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)pwmData, indx);
+	HAL_TIM_PWM_Start_DMA(&htim2, TIM_CHANNEL_4, (uint32_t *)pwmData, indx);
 	while (!datasentflag){};
 	datasentflag = 0;
 }
@@ -301,6 +298,13 @@ uint8_t rainbow_effect_left() {
   if(effStep >= 13) {effStep=0; return 0x03; }
   else effStep++;
   return 0x01;
+}
+
+void setAllLeds(uint8_t red, uint8_t green, uint8_t blue){
+	for (int i=0; i<MAX_LED; i++)
+		{
+		Set_LED (i, red, green, blue);
+		}
 }
 
 

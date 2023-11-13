@@ -38,7 +38,7 @@ void led_init(){
 
 	startTimeTimeExpired = 0;
 
-	ws2812_init();
+	//ws2812_init();
 
 }
 
@@ -64,35 +64,35 @@ void led_update() {
 	//	TODO Statemachine for leds
 	switch(leds.state){
 	case LED_STATE_WHITE:
-		setWHOLEcolor(white.r, white.g, white.b);
+		setAllLeds(white.r, white.g, white.b);
 	break;
 	case LED_STATE_GREEN:
-		setWHOLEcolor(green.r, green.g, green.b);
+		setAllLeds(green.r, green.g, green.b);
 	break;
 	case LED_STATE_BLUE:
-		setWHOLEcolor(blue.r, blue.g, blue.b);
+		setAllLeds(blue.r, blue.g, blue.b);
 	break;
 	case LED_STATE_RED:
-		setWHOLEcolor(red.r, red.g, red.b);
+		setAllLeds(red.r, red.g, red.b);
 	break;
 	case LED_STATE_GREEN_FADE:
-		loopPulseColour(green);
+		//loopPulseColour(green);
 	break;
 	case LED_STATE_RED_FADE:
-		loopPulseColour(red);
+		//loopPulseColour(red);
 	break;
 	case LED_STATE_RAINBOW:
-		loopRainbow();
+		//loopRainbow();
 	break;
 	case LED_STATE_OFF:
-		setWHOLEcolor(0,0,0);
+		//setWHOLEcolor(0,0,0);
 	break;
 	default:
 		// You should never be here
 	break;
 	}
 	// Update led string
-	ws2812_update();
+	WS2812_Send();
 }
 
 void startAnimationLED(){
@@ -176,7 +176,7 @@ void loopRunningLight(colour_t colour, uint8_t runningLightIndex, uint8_t offset
 
 void runningLight(colour_t colour, uint8_t index, int8_t direction){
 	for(int i = index; i < index + (direction*RUNNING_LIGHT_NUM_LEDS); i=i+(1*direction)){
-		setLEDcolor(index, colour.r, colour.g, colour.b);
+		//setLEDcolor(index, colour.r, colour.g, colour.b);
 	}
 }
 

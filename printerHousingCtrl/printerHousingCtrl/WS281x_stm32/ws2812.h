@@ -3,8 +3,12 @@
 
 #include "../config.h"
 
-/* Definition of TIM instance */
-#define TIMx                             	TIM2
+#define MAX_LED NUM_LED
+#define USE_BRIGHTNESS 0
+
+extern TIM_HandleTypeDef htim2;
+
+#define TIMx								TIM2
 
 /* Definition for TIMx clock resources */
 #define TIMx_CLK_ENABLE                  	__HAL_RCC_TIM2_CLK_ENABLE
@@ -44,6 +48,9 @@ void setLEDcolor(uint32_t LEDnumber, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
 void setWHOLEcolor(uint8_t RED, uint8_t GREEN, uint8_t BLUE);
 void fillBufferBlack(void);
 void fillBufferWhite(void);
+void WS2812_Send();
 void TIMx_DMA_IRQHandler(void);
+
+void setAllLeds(uint8_t red, uint8_t green, uint8_t blue);
 
 #endif
