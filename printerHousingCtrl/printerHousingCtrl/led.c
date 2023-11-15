@@ -64,16 +64,16 @@ void led_update() {
 	//	TODO Statemachine for leds
 	switch(leds.state){
 	case LED_STATE_WHITE:
-		setAllLeds(white.r, white.g, white.b);
+		setWHOLEcolor(white.r, white.g, white.b);
 	break;
 	case LED_STATE_GREEN:
-		setAllLeds(green.r, green.g, green.b);
+		setWHOLEcolor(green.r, green.g, green.b);
 	break;
 	case LED_STATE_BLUE:
-		setAllLeds(blue.r, blue.g, blue.b);
+		setWHOLEcolor(blue.r, blue.g, blue.b);
 	break;
 	case LED_STATE_RED:
-		setAllLeds(red.r, red.g, red.b);
+		setWHOLEcolor(red.r, red.g, red.b);
 	break;
 	case LED_STATE_GREEN_FADE:
 		//loopPulseColour(green);
@@ -92,7 +92,7 @@ void led_update() {
 	break;
 	}
 	// Update led string
-	WS2812_Send();
+	//ws2812_update();
 }
 
 void startAnimationLED(){

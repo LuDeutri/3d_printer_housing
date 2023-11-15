@@ -3,10 +3,8 @@
 
 #include "../config.h"
 
-#define MAX_LED NUM_LED
+#define MAX_LED 100
 #define USE_BRIGHTNESS 0
-
-extern TIM_HandleTypeDef htim2;
 
 #define TIMx								TIM2
 
@@ -25,14 +23,14 @@ extern TIM_HandleTypeDef htim2;
 #define TIMx_CC1_DMA_INST                	DMA1_Channel7
 
 /* Definition for DMAx's NVIC */
-#define TIMx_DMA_IRQn                    	DMA1_Channel5_IRQn
-#define TIMx_DMA_IRQHandler              	DMA1_Channel5_IRQHandler
+#define TIMx_DMA_IRQn                    	DMA1_Channel7_IRQn
+#define TIMx_DMA_IRQHandler              	DMA1_Channel7_IRQHandler
 
 //WS2812
 #define WS2812_FREQ												(800000) 			// it is fixed: WS2812 require 800kHz
-#define TIMER_CLOCK_FREQ									(16000000)   	// can be modified - multiples of 0.8MHz are suggested
+#define TIMER_CLOCK_FREQ									(36000000)   	// can be modified - multiples of 0.8MHz are suggested
 #define TIMER_PERIOD											(TIMER_CLOCK_FREQ / WS2812_FREQ)
-#define LED_NUMBER												(NUM_LED)					// how many LEDs the MCU should control?
+#define LED_NUMBER												(20)					// how many LEDs the MCU should control?
 #define LED_DATA_SIZE											(LED_NUMBER * 24)
 #define RESET_SLOTS_BEGIN									(50)
 #define RESET_SLOTS_END										(50)
@@ -42,15 +40,15 @@ extern TIM_HandleTypeDef htim2;
 #define WS2812_1													(TIMER_PERIOD * 2 / 3)		// WS2812's one high time is long about two thirds of the period
 #define WS2812_RESET											(0)
 
+extern TIM_HandleTypeDef TimHandle;
+
 void ws2812_init(void);
 void ws2812_update(void);
 void setLEDcolor(uint32_t LEDnumber, uint8_t RED, uint8_t GREEN, uint8_t BLUE);
 void setWHOLEcolor(uint8_t RED, uint8_t GREEN, uint8_t BLUE);
 void fillBufferBlack(void);
 void fillBufferWhite(void);
-void WS2812_Send();
-void TIMx_DMA_IRQHandler(void);
-
-void setAllLeds(uint8_t red, uint8_t green, uint8_t blue);
+void ws2812_update();
+//void TIMx_DMA_IRQHandler(void);
 
 #endif
