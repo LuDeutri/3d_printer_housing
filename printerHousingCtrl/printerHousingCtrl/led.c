@@ -38,7 +38,7 @@ void led_init(){
 
 	startTimeTimeExpired = 0;
 
-	//ws2812_init();
+	ws281x_init();
 
 }
 
@@ -62,18 +62,19 @@ void led_update() {
 		//nextStateLED(LED_STATE_RED_FADE);
 
 	//	TODO Statemachine for leds
+	leds.state = LED_STATE_RED;
 	switch(leds.state){
 	case LED_STATE_WHITE:
-		setWHOLEcolor(white.r, white.g, white.b);
+		setAllLEDs(white.r, white.g, white.b);
 	break;
 	case LED_STATE_GREEN:
-		setWHOLEcolor(green.r, green.g, green.b);
+		setAllLEDs(green.r, green.g, green.b);
 	break;
 	case LED_STATE_BLUE:
-		setWHOLEcolor(blue.r, blue.g, blue.b);
+		setAllLEDs(blue.r, blue.g, blue.b);
 	break;
 	case LED_STATE_RED:
-		setWHOLEcolor(red.r, red.g, red.b);
+		setAllLEDs(red.r, red.g, red.b);
 	break;
 	case LED_STATE_GREEN_FADE:
 		//loopPulseColour(green);
@@ -92,7 +93,7 @@ void led_update() {
 	break;
 	}
 	// Update led string
-	//ws2812_update();
+	ws281x_send();
 }
 
 void startAnimationLED(){
@@ -153,7 +154,7 @@ void loopPulseColour(colour_t colour) {
   }
 
   // TODO set brighthness fadeBrighntess
-  setWHOLEcolor(colour.r, colour.g, colour.b);
+  setAllLEDs(colour.r, colour.g, colour.b);
 }
 
 void loopRainbow(){
@@ -204,6 +205,6 @@ void fill_rainbow(uint8_t counter){
 	for(uint8_t i=1; i < NUM_LED-RAINBOW_SAME_COLOUR_LEDS-1; i++){
 		rainbowColour = rainbowColourArr[i % RAINBOW_NUM_COLOURS + counter];
 
-		setLEDcolor(i+RAINBOW_SAME_COLOUR_LEDS-2,rainbowColour.r, rainbowColour.g, rainbowColour.b);
+		setLED(i+RAINBOW_SAME_COLOUR_LEDS-2,rainbowColour.r, rainbowColour.g, rainbowColour.b);
 	}
 }

@@ -15,6 +15,8 @@ void printerHousingCtrl_init(){
 	led_init();
 	screensaver_init();
 	printer_init();
+
+	HAL_TIM_Base_Start(&TIM_HAL_DELAY); // Start us delay timer
 }
 
 void printerHousingCtrl_main(){

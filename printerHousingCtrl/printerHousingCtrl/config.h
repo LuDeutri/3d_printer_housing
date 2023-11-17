@@ -11,6 +11,8 @@
 #include <time.h>
 
 #include"../Core/Inc/main.h"
+#include <stm32f1xx_hal.h>
+
 
 // ########################################
 // Software configuration start
@@ -25,7 +27,7 @@
 #define BACKWARD -1
 
 // LED strips
-#define NUM_LED 141
+#define NUM_LED 2
 #define NUM_LED_STRIP_BOTTOM_LEFT 15 	// In the electronics area under the printer
 #define NUM_LED_STRIP_LEFT 36			// Left to the printer
 #define NUM_LED_STRIP_TOP 39			// About the printer
@@ -48,6 +50,12 @@
 #define RESET_RASPI_DISPLAYSCREENSAVER_INPUT_IGNORE 3000 // After this time, the pi can ctrl the screensaver again
 
 extern const bool useAnalogGasValue;
+
+extern TIM_HandleTypeDef htim1;
+#define TIM_LED_DATA htim1
+
+extern TIM_HandleTypeDef htim2;
+#define TIM_HAL_DELAY htim2
 
 // ########################################
 // Software configuration end
