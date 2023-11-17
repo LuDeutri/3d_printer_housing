@@ -67,8 +67,6 @@ void Error_Handler(void);
 #define btn_led_GPIO_Port GPIOA
 #define btn_fire_ExGuisher_Pin GPIO_PIN_2
 #define btn_fire_ExGuisher_GPIO_Port GPIOA
-#define led_data_out_Pin GPIO_PIN_3
-#define led_data_out_GPIO_Port GPIOA
 #define beeper_Pin GPIO_PIN_4
 #define beeper_GPIO_Port GPIOA
 #define valve_open_Pin GPIO_PIN_6
@@ -81,6 +79,8 @@ void Error_Handler(void);
 #define gas_sens_digital_GPIO_Port GPIOB
 #define printer_sply_ctrl_Pin GPIO_PIN_11
 #define printer_sply_ctrl_GPIO_Port GPIOB
+#define led_pwm_data_Pin GPIO_PIN_8
+#define led_pwm_data_GPIO_Port GPIOA
 #define unused_0_Pin GPIO_PIN_12
 #define unused_0_GPIO_Port GPIOA
 #define unused_1_Pin GPIO_PIN_15
