@@ -2,15 +2,13 @@
 #define __ws281x
 
 #include "../config.h"
-#include "../hal_delay.h"
 #include "../../Core/Inc/main.h"
 
 //#define NUM_LED 				NUM_LED defined in config.h
 #define USE_BRIGHTNESS 0
 #define BRIGTHNESS_STANDART 40
-#define PWM_DATA_ARR_LENGTH ((24*NUM_LED)+50) // 24Bits per LED + 40x 0 for reset cycle
-
-#define PI 3.14159265
+#define WS2811_RESET_PERIOD 1
+#define PWM_DATA_ARR_LENGTH ((24*NUM_LED)+WS2811_RESET_PERIOD) // 24Bits per LED + Reset bits
 
 void ws281x_init();
 void ws281x_send();

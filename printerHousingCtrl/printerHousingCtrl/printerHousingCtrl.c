@@ -16,25 +16,25 @@ void printerHousingCtrl_init(){
 	screensaver_init();
 	printer_init();
 
-	HAL_TIM_Base_Start(&TIM_HAL_DELAY); // Start us delay timer
+	//HAL_TIM_Base_Start(&TIM_HAL_DELAY); // Start us delay timer
 }
 
 void printerHousingCtrl_main(){
 
 	// Wait for finished init
-	if (HAL_GetTick() < 500)
-		return;
+	//if (HAL_GetTick() < 500)
+		//return;
 
 	// Main loop
 	while(true){
 		// Update inputs
-		button_update();
-		updatePiInput();
+		//button_update();
+		//updatePiInput();
 
 		// Update submodules
-		gasSensor_update();
+		//gasSensor_update();
 		//fireExtinguisher_update();
-		beeper_update();
+		//beeper_update();
 		led_update();
 		//screensaver_update();
 		printer_update();

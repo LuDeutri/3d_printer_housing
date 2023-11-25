@@ -5,7 +5,7 @@ const colour_t red = {255, 0, 0};
 const colour_t orange = {255, 127, 0};
 const colour_t yellow = {255, 255, 0};
 const colour_t green = {0, 255, 0};
-const colour_t blue = {0, 0, 255};
+const colour_t blue = {0, 0, 10};
 const colour_t indigo = {46, 43, 95};
 const colour_t violett = {136, 0, 255};
 const colour_t white = {255, 255, 255};
@@ -59,10 +59,11 @@ void led_update() {
 
 	// Overwrite led status if fire is detected
 	if(fireExtinguisher.activatingTime != 0)
-		//nextStateLED(LED_STATE_RED_FADE);
+		nextStateLED(LED_STATE_RED_FADE);
 
 	//	TODO Statemachine for leds
-	leds.state = LED_STATE_RED;
+	leds.state = LED_STATE_BLUE;
+
 	switch(leds.state){
 	case LED_STATE_WHITE:
 		setAllLEDs(white.r, white.g, white.b);
