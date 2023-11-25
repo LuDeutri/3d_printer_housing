@@ -1,7 +1,7 @@
 #ifndef LED_H_
 #define LED_H_
 
-#include <WS281x_stm32/ws281x.h>
+#include <WS281x_stm32/example.h>
 #include "config.h"
 #include "button.h"
 #include "fireExtinguisher.h"
@@ -18,6 +18,8 @@ typedef enum{
 	LED_STATE_BLUE,		// 010
 	LED_STATE_RED,		// 011
 	LED_STATE_GREEN_FADE, // 100
+	LED_STATE_COLOR_FADE,
+	LED_STATE_COLOR_BLINK,
 	LED_STATE_RED_FADE,  // 101
 	LED_STATE_RAINBOW,	// 110
 	LED_STATE_OFF		// 111
@@ -31,12 +33,6 @@ typedef struct{
 } led_t;
 extern led_t leds;
 
-typedef struct{
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
-} colour_t;
-
 void led_init();
 void led_update();
 
@@ -44,12 +40,7 @@ void startAnimationLED();
 void nextStateLED(state_t nextStateLED);
 void nextState();
 
-void loopPulseColour(colour_t colour);
-void loopRainbow();
-void loopRunningLight(colour_t colour, uint8_t runningLightIndex, uint8_t offset, int8_t direction);
 
-void fill_rainbow(uint8_t counter);
-void runningLight(colour_t colour, uint8_t index, int8_t direction);
 
 bool isTimeExpired(uint32_t milliseconds);
 
