@@ -1,7 +1,7 @@
 #ifndef LED_H_
 #define LED_H_
 
-#include <WS281x_stm32/example.h>
+#include <ws281x_stm32/example.h>
 #include "config.h"
 #include "button.h"
 #include "fireExtinguisher.h"
