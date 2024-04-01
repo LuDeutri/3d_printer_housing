@@ -29,7 +29,20 @@
 #ifndef __ws281x
 #define __ws281x
 
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <time.h>
+#include <stddef.h>
+#include <math.h>
+#include <stdarg.h>
+
+#include "example.h"
+#include "utility.h"
+#include "color.h"
+
 #include "../config.h"
+
 
 // --------------- To set by user ---------------------------
 // Here defined setttings are only used here and not written in the main.c
@@ -37,53 +50,39 @@
 
 // In the WS2811 led strip are 3 leds controlled by one IC.
 // In the WS2812 led strip every led has is one controller IC included.
+// ------- WS2812 control is not tested !! -----------
+// The reset period can be reduced for the WS2812 (not implemented)
 #define USE_WS2811 1	// WS2811: 1 , WS2812: 0
 
-//#define NUM_LED 				// Number of leds controlled by mcu 	//(NUM_LED defined in config.h)
+//(NUM_LED defined in config.h)
+//#define NUM_LED 				// Total number of leds controlled by mcu doesnt matter if 2812 or 2811
 
-#define SYS_CLK 72000000
-#define TIMER &htim1
-#define TIMER_CHANNEL TIM_CHANNEL_1
-#define TIM_PRESCALER 0
-#define TIM_ARR 90      // (SYS_CLK / TIM_ARR) = 800 kHz
+#define SYS_CLK 72000000 		// Sys clk frequence of the stm32 uC
+#define TIMER &htim1			// Used timer for the led data PWM signal
+#define TIMER_CHANNEL TIM_CHANNEL_1		// Used Timer channel used for the led data PWM signal
+#define TIM_PRESCALER 0			// Prescaler settings in the .ioc
+#define TIM_ARR 90      		// (SYS_CLK / TIM_ARR) = 800 kHz
+
+#define ENABLE_BRIGHTNESS 1		// 1 enables brigthness control of the LEDs, if deacitvated it is always 100% (fadeing and other light simulations wont work)
+#define BRIGTHNESS_DEFAULT 40	// Default setted Brightness, allowed value 0 - 45
 
 
+// ---------------------------------------------------------------------
 // -------------- Dont´t modify lines below ----------------------------
+// ---------------------------------------------------------------------
 
 
-
-#define USE_BRIGHTNESS 1
-#define BRIGTHNESS_STANDART 40
 #define PI 3.14159265
-
-typedef struct{
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
-} color_t;
-
-extern const color_t off;
-extern const color_t red;
-extern const color_t orange;
-extern const color_t yellow;
-extern const color_t green;
-extern const color_t blue;
-extern const color_t indigo;
-extern const color_t violett;
-extern const color_t white;
-
-extern color_t colorFadeReg[];
-extern size_t colorFadeRegSize;
-
-extern color_t colorBlinkReg[];
-extern size_t colorBlinkRegSize;
-
+#define DMA_TIMEOUT 5000 //ms
 extern uint8_t numberLeds;
+
+
 
 void ws281x_init();
 
 /*
- * Translate RGB data into PWM duty cycle and start the DMA
+ * Translate RGB data into PWM duty cycle and start the DMA.
+ * SetLED() / setAllLEDs() should be called first.
  */
 void ws281x_send();
 
@@ -93,19 +92,26 @@ void ws281x_send();
 void ws281x_settOff();
 
 /*
- * Set the given led with the given RGB data. The led is not updated until ws281x_send() is called.
+ * Set the RGB data for the led with given index.
+ * The led is not updated until ws281x_send() is called.
  * @param LEDnum number of the led which color is to set
- * @param red value for the red led brightness, 0-254
- * @param green value for the green led brightness, 0-254
- * @param blue value for the blue led brightness, 0-254
+ * @param color color_t element which store the RGB data of the color
  */
 void setLED(uint8_t LEDnum, color_t color);
 
 /*
+ * Set the RGB data for the given leds.
+ * Starting with the 'firstLed' index all follow leds will be set until 'numberOfLeds' are lightning.
+ * @param color color_t element which store the RGB data of the color
+ * @param firstLed index of the first LED which should be set
+ * @param numberOfLeds total number of leds which should be set
+ */
+void setSpecificLEDs(color_t color, uint8_t firstLed, uint8_t numberOfLeds);
+
+/*
  * Set all LEDs which are controlled by this mcu
- * @param red value for the red led brightness, 0-254
- * @param green value for the green led brightness, 0-254
- * @param blue value for the blue led brightness, 0-254
+ * The led is not updated until ws281x_send() is called.
+ * @param color color_t element which store the RGB data of the color
  */
 void setAllLEDs(color_t color);
 
@@ -114,13 +120,35 @@ void setAllLEDs(color_t color);
  * @param brightness valid input 0-45 for the brightness of the leds
  */
 void setBrightness(uint8_t br);
+
+/*
+ * Return safed brightness value
+ * @return setted brightness value
+ */
 uint8_t getBrightness();
 
+/*
+ * Used to modify stored led Data with brightness value.
+ * If Brightness is defines as enabled, this method is called in ws281x_send().
+ */
 void calculateLedDataWithBrightness();
 
 
+#define IDX_STARTING_LED 1
+#define IDX_NUM_LIGHTNING_LEDS 0
 /*
- * HAL function overwrite to detect the end of the DMA conversation
+ * Calculate and return the number of controller for the given number of leds
+ * If WS2812 is used, the same number is returned.
+ * If WS2811 is used, the number is divided by 3. If the given number can not be divided by 3 without a rest,
+ * the number will be incresed (idx=false) / decreased (idx=true) until its possible
+ * @param numLed 0-255
+ * @param idx set true (IDX_STARTING_LED) if the given number is the index of the starting led. Set false (IDX_NUM_LIGHTNING_LEDS) if its the number of Leds which sould lighting.
+ * @return number of controller of the leds
+ */
+uint8_t translateNumLeds_WS2811_WS2812(uint8_t numLed, bool idx);
+
+/*
+ * HAL function overwrite to detect the end of the DMA conversation.
  */
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim);
 

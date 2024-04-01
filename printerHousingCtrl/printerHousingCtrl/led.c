@@ -38,11 +38,19 @@ void led_update() {
 	if(fireExtinguisher.activatingTime != 0)
 		nextStateLED(LED_STATE_RED_FADE);
 
-	//	TODO Statemachine for leds
-	leds.state = LED_STATE_COLOR_BLINK;
-	setBrightness(20);
+
+	//	TODO ----------- test circuit
+	leds.state = LED_STATE_GREEN_FADE;
+	//setBrightness(20);
+	// TODO --------------test circuit end
+
+	// Reset stored led data first
+	//setAllLEDs(off);
 
 	switch(leds.state){
+	case LED_STATE_OFF:
+		setAllLEDs(off);
+	break;
 	case LED_STATE_WHITE:
 		setAllLEDs(white);
 	break;
@@ -56,23 +64,21 @@ void led_update() {
 		setAllLEDs(red);
 	break;
 	case LED_STATE_GREEN_FADE:
-		fadeOneColor(green);
+		fadeOneColor(green, INDEX_LED_STRIP_LEFT, NUM_LED_PRINTER_ROOM);
 	break;
-	case LED_STATE_COLOR_BLINK:
-		blinkColor(colorBlinkReg, colorBlinkRegSize);
-		break;
-	case LED_STATE_COLOR_FADE:
-		fadeColorRegister(colorFadeReg, colorFadeRegSize);
-		break;
 	case LED_STATE_RED_FADE:
-		//loopPulseColour(red);
+		fadeOneColor(red, INDEX_LED_STRIP_LEFT, NUM_LED_PRINTER_ROOM);
 	break;
 	case LED_STATE_RAINBOW:
-		//loopRainbow();
+		rainbow();
 	break;
-	case LED_STATE_OFF:
-		//setWHOLEcolor(0,0,0);
-	break;
+	// -------TODO test cycle ------
+	case LED_STATE_COLOR_BLINK:
+		blinkColors(colorBlinkReg, colorBlinkRegSize, 0, 5);
+		break;
+	case LED_STATE_COLOR_FADE:
+		fadeColors(colorFadeReg, colorFadeRegSize, 0, 1);
+		break;
 	default:
 		// You should never be here
 	break;
@@ -82,13 +88,9 @@ void led_update() {
 }
 
 void startAnimationLED(){
-	/*loopRunningLight(red, runningLightIndex1, 0, FORWARD);
-	loopRunningLight(green, runningLightIndex2, NUM_LED/2, FORWARD);
-	loopRunningLight(blue, runningLightIndex3, NUM_LED, BACKWARD);
-
-	if(runningLightIndex1 >= NUM_LED-RUNNING_LIGHT_NUM_LEDS)
+	// Set start animation to finished if one running light cylce reach the end
+	if(runningLight(red, 0, FORWARD) || runningLight(blue, NUM_LED, BACKWARD))
 		startAnimation = false;
-		*/
 }
 
 void nextStateLED(state_t nextStateLED) {
@@ -99,8 +101,8 @@ void nextStateLED(state_t nextStateLED) {
 }
 
 void nextState() {
-	if(leds.state == LED_STATE_OFF)
-		leds.state = LED_STATE_WHITE;
+	if(leds.state == LED_STATE_RAINBOW)
+		leds.state = LED_STATE_OFF;
 	else
 		leds.state++;
 }

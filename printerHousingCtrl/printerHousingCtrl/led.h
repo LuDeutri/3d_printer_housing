@@ -6,23 +6,18 @@
 #include "button.h"
 #include "fireExtinguisher.h"
 
-#define TIME_FADE 10
-#define RAINBOW_SAME_COLOUR_LEDS 2
-#define RAINBOW_NUM_COLOURS 7
-#define RUNNING_LIGHT_NUM_LEDS 1
-
 // Statemachine states of the led strip
 typedef enum{
-	LED_STATE_WHITE,  	// 000
-	LED_STATE_GREEN,	// 001
-	LED_STATE_BLUE,		// 010
-	LED_STATE_RED,		// 011
-	LED_STATE_GREEN_FADE, // 100
+	LED_STATE_OFF,		// 000
+	LED_STATE_WHITE,  	// 001
+	LED_STATE_GREEN,	// 010
+	LED_STATE_BLUE,		// 011
+	LED_STATE_RED,		// 100
+	LED_STATE_GREEN_FADE, // 101
+	LED_STATE_RED_FADE,  // 110
+	LED_STATE_RAINBOW,	// 111
 	LED_STATE_COLOR_FADE,
-	LED_STATE_COLOR_BLINK,
-	LED_STATE_RED_FADE,  // 101
-	LED_STATE_RAINBOW,	// 110
-	LED_STATE_OFF		// 111
+	LED_STATE_COLOR_BLINK
 }state_t ;
 
 typedef struct{

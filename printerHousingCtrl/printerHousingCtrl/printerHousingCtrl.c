@@ -22,19 +22,18 @@ void printerHousingCtrl_init(){
 void printerHousingCtrl_main(){
 
 	// Wait for finished init
-	//if (HAL_GetTick() < 500)
-		//return;
+	if (HAL_GetTick() < 500)
+		return;
 
 	// Main loop
 	while(true){
 		// Update inputs
-		//button_update();
-		//updatePiInput();
+		button_update();
+		updatePiInput();
 
 		// Update submodules
 		//gasSensor_update();
 		//fireExtinguisher_update();
-		//beeper_update();
 		led_update();
 		//screensaver_update();
 		printer_update();

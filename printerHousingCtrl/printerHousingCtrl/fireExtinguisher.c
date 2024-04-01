@@ -1,6 +1,7 @@
 #include "fireExtinguisher.h"
 
 fireExtinguisher_t fireExtinguisher;
+bool buttonStopped = false;
 
 void fireExtinguisher_init(){
 	fireExtinguisher.sequenceStartTime = 0;
@@ -19,8 +20,10 @@ void fireExtinguisher_update(){
 	if(fireExtinguisher.sequenceStartTime == 0)
 		return;
 
-	if(getButtonState(BUTTON_FIRE_EXTINGUISHER) && getButtonPressedTime() > FIRE_EXTINGUISHER_EXIT_BTN_PRESS_TIME)
+	if(getButtonState(BUTTON_FIRE_EXTINGUISHER) && getButtonPressedTime() > FIRE_EXTINGUISHER_EXIT_BTN_PRESS_TIME){
 		fireExtinguisherStop();
+		buttonStopped = true;
+	}
 
 	// Start extinguishing action
 	if(HAL_GetTick() > fireExtinguisher.activatingTime + FIRE_EXTINGUISHER_TRIGGER_TIMER)
@@ -29,11 +32,14 @@ void fireExtinguisher_update(){
 	// Reduce the beeper and the LED fade after a defined time
 	if(HAL_GetTick() > fireExtinguisher.activatingTime + TIME_REDUCE_BEEPER)
 		fireExtinguisher.standby = true;
-		// Note: Beeper change is handled in beeper_update() in printerHousingCtrl.c
+		// Note: Beeper change is handled in beeper_update()
 		// Note: LEDs going into off state handled in printerHousingCtrl.c
 }
 
 void fireExtinguisherStartCount(){
+	if(buttonStopped) // if the fire countdown has already stopped by pressing the button, dont start again
+		return;
+
 	fireExtinguisher.sequenceStartTime = HAL_GetTick(); // Countdown starts
 
 	beeperStart(); // Activate Beeper

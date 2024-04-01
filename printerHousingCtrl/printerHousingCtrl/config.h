@@ -28,21 +28,35 @@
 #define BACKWARD -1
 
 // LED strips
-#define NUM_LED 2
-#define NUM_LED_STRIP_BOTTOM_LEFT 15 	// In the electronics area under the printer
+#define NUM_LED 6						// Total number of leds
+#define ENABLE_START_ANIMATION 1		// 0: startanimation is disabled
+#define LED_BRIGHTNESS 45				// 0 ... 45
+#define TIME_STARTING_ANIMATION 3000	// max duration of the start animation
+
+// Electronics room
+#define INDEX_LED_STRIP_BOTTOM_LEFT 0	// Index of the first led of this strip
+#define NUM_LED_STRIP_BOTTOM_LEFT 15 	// In the electronics area under the printer left side
+
+#define INDEX_LED_STRIP_BOTTOM_RIGHT 106// Index of the first led of this strip
+#define NUM_LED_STRIP_BOTTOM_RIGHT 15	// In the electronics area under the printer right side
+
+// Printer room led 14 - 105
+#define INDEX_LED_STRIP_LEFT 15 		// Index of the first led of this strip
 #define NUM_LED_STRIP_LEFT 36			// Left to the printer
+
+#define INDEX_LED_STRIP_TOP	51			// Index of the first led of this strip
 #define NUM_LED_STRIP_TOP 39			// About the printer
+
+#define INDEX_LED_STRIP_RIGHT 90		// Index of the first led of this strip
 #define NUM_LED_STRIP_RIGHT 16			// Right to the printer
-#define NUM_LED_STRIP_BOTTOM_RIGHT 15	// In the electronics area under the printer
-#define LED_BRIGHTNESS 255				// 0 ... 255
-#define TIME_STARTING_ANIMATION 3000	// Duration of the start animation
-#define ENABLE_START_ANIMATION 0
+
+#define NUM_LED_PRINTER_ROOM NUM_LED_STRIP_LEFT+NUM_LED_STRIP_TOP+NUM_LED_STRIP_RIGHT
 
 // Fire extinguisher
-#define FIRE_EXTINGUISHER_TRIGGER_TIMER 20000 		// time until co2 valve is opening
+#define FIRE_EXTINGUISHER_TRIGGER_TIMER 20000 		// Time until co2 valve is opening
 #define FIRE_EXTINGUISHER_EXIT_BTN_PRESS_TIME 2000	// If the Btn is pressed over that limit during fire extinguisher is active, extinguisher will be stopped
 #define ERR_DELAY_FIRE_DETECTED 2000
-#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED 100 		// TODO define fire detected threshold
+#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED 100 		// TODO define fire detected threshold for analog value
 
 // Beeper
 #define TIME_REDUCE_BEEPER 300000 				// beeper will be reduced
@@ -52,11 +66,9 @@
 
 extern const bool useAnalogGasValue;
 
+// Timer used for the LED data signal
 extern TIM_HandleTypeDef htim1;
 #define TIM_LED_DATA htim1
-
-extern TIM_HandleTypeDef htim2;
-#define TIM_HAL_DELAY htim2
 
 // ########################################
 // Software configuration end
