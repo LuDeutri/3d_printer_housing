@@ -28,8 +28,8 @@
 #define BACKWARD -1
 
 // LED strips
-#define NUM_LED 6						// Total number of leds
-#define ENABLE_START_ANIMATION 1		// 0: startanimation is disabled
+// #define NUM_LED defined in ws281.h
+#define ENABLE_START_ANIMATION 1		// 0: start animation is disabled
 #define LED_BRIGHTNESS 45				// 0 ... 45
 #define TIME_STARTING_ANIMATION 3000	// max duration of the start animation
 
@@ -66,11 +66,6 @@
 
 extern const bool useAnalogGasValue;
 
-// Timer used for the LED data signal
-extern TIM_HandleTypeDef htim1;
-#define TIM_LED_DATA htim1
-
 // ########################################
 // Software configuration end
 // ########################################
-

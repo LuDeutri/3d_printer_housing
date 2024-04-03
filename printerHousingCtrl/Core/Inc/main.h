@@ -79,8 +79,6 @@ void Error_Handler(void);
 #define gas_sens_digital_GPIO_Port GPIOB
 #define printer_sply_ctrl_Pin GPIO_PIN_11
 #define printer_sply_ctrl_GPIO_Port GPIOB
-#define led_pwm_data_Pin GPIO_PIN_8
-#define led_pwm_data_GPIO_Port GPIOA
 #define unused_0_Pin GPIO_PIN_12
 #define unused_0_GPIO_Port GPIOA
 #define unused_1_Pin GPIO_PIN_15
