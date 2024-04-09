@@ -9,7 +9,7 @@
  *
  * Set the following settings in the .ioc:
  *
- * System clock: 72 Mhz
+ * System clock: 72 MHz
  *
  * Timer
  * TIM Prescaler: 0
