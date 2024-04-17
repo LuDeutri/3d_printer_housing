@@ -1,3 +1,0 @@
-[submodule "printerHousingCtrl/printerHousingCtrl/ws281x_stm32"]
-	path = printerHousingCtrl/printerHousingCtrl/ws281x_stm32
-	url = https://github.com/LuDeutri/ws281x_stm32.git
