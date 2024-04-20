@@ -40,7 +40,7 @@ void led_update() {
 
 
 	//	TODO ----------- test circuit
-	leds.state = LED_STATE_GREEN_FADE;
+	leds.state = LED_STATE_RAINBOW;
 	//setBrightness(20);
 	// TODO --------------test circuit end
 
@@ -77,7 +77,9 @@ void led_update() {
 		blinkColors(colorBlinkReg, colorBlinkRegSize, 0, 5);
 		break;
 	case LED_STATE_COLOR_FADE:
-		fadeColors(colorFadeReg, colorFadeRegSize, 0, 1);
+
+		cyclone();
+		//fadeColors(colorFadeReg, colorFadeRegSize, 0, 126);
 		break;
 	default:
 		// You should never be here
@@ -89,7 +91,7 @@ void led_update() {
 
 void startAnimationLED(){
 	// Set start animation to finished if one running light cylce reach the end
-	if(runningLight(red, 0, FORWARD) || runningLight(blue, NUM_LED, BACKWARD))
+	if(runningLight(red, 0, FORWARD, true) || runningLight(blue, NUM_LED, BACKWARD, true))
 		startAnimation = false;
 }
 
