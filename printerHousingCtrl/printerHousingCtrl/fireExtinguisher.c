@@ -10,26 +10,38 @@ void fireExtinguisher_init(){
 	fireExtinguisher.standby = false;
 
 	fireExtinguisher.beeper.beeperActive = false;
+
+	HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, LOW); // Init beeper off
 }
 
 void fireExtinguisher_update(){
 	beeper_update(); // Update Beeper
 	valve_update();	 // Update valve
 
+	// If a detected fire alarm was stopped by pressing the fire button, it must not be
+	// possible to start the alarm again
+	if(buttonStopped)
+		return;
+
+	// Activate fire extinguisher sequence if fire is detected or the button is pressed
+	if (getButtonState(BUTTON_FIRE_EXTINGUISHER) || gasSensor.fireDetected)
+		fireExtinguisherStartCount();
+
 	// Stop if there is no fire detected
 	if(fireExtinguisher.sequenceStartTime == 0)
 		return;
 
+	// Check if fire button is pressed to stop the alarm sequence
 	if(getButtonState(BUTTON_FIRE_EXTINGUISHER) && getButtonPressedTime() > FIRE_EXTINGUISHER_EXIT_BTN_PRESS_TIME){
 		fireExtinguisherStop();
 		buttonStopped = true;
 	}
 
-	// Start extinguishing action
-	if(HAL_GetTick() > fireExtinguisher.activatingTime + FIRE_EXTINGUISHER_TRIGGER_TIMER)
+	// Start extinguishing action after defined time
+	if(HAL_GetTick() > fireExtinguisher.sequenceStartTime + FIRE_EXTINGUISHER_TRIGGER_TIMER)
 		fireExtinguisherActivate();
 
-	// Reduce the beeper and the LED fade after a defined time
+	// Reduce the beeper and the LED fade after a defined time, valve stays opened
 	if(HAL_GetTick() > fireExtinguisher.activatingTime + TIME_REDUCE_BEEPER)
 		fireExtinguisher.standby = true;
 		// Note: Beeper change is handled in beeper_update()
@@ -37,7 +49,7 @@ void fireExtinguisher_update(){
 }
 
 void fireExtinguisherStartCount(){
-	if(buttonStopped) // if the fire countdown has already stopped by pressing the button, dont start again
+	if(buttonStopped) // If the fire countdown has already stopped by pressing the button, dont start again
 		return;
 
 	fireExtinguisher.sequenceStartTime = HAL_GetTick(); // Countdown starts
@@ -72,8 +84,10 @@ void beeper_update(){
 	}
 
 	// First beep fast, after TIME_REDUCE_BEEPER beep every minute for one second
-	if(fireExtinguisher.activatingTime < HAL_GetTick() + TIME_REDUCE_BEEPER)
-		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 400 < 200);
+	if (fireExtinguisher.sequenceStartTime < HAL_GetTick() + FIRE_EXTINGUISHER_TRIGGER_TIMER)
+		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 2000 < 1000);
+	else if(fireExtinguisher.activatingTime < HAL_GetTick() + TIME_REDUCE_BEEPER)
+		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 600 < 300);
 	else
 		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 60000 < 1000);
 }
