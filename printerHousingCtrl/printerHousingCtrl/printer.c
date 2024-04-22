@@ -6,6 +6,9 @@ void printer_init(){
 	printer.splyCtrl = true;
 	printer.splyCtrlRaspiInput = false;
 	printer.ingoreRaspiInput = false;
+
+	// Enable the printer power supply
+	HAL_GPIO_WritePin(printer_sply_ctrl_GPIO_Port, printer_sply_ctrl_Pin, HIGH);
 }
 
 void printer_update(){
@@ -13,8 +16,10 @@ void printer_update(){
 	if(!printer.ingoreRaspiInput)
 		printer.splyCtrl = printer.splyCtrlRaspiInput;
 
+
+	if(HAL_GetTick() < 10000) // To ensure raspi has started completely
+		return;
 	// Update output pin
-	// HIGH: active, LOW: NOT ACTIVE
 	HAL_GPIO_WritePin(printer_sply_ctrl_GPIO_Port, printer_sply_ctrl_Pin, printer.splyCtrl);
 }
 
