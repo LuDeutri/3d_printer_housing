@@ -12,7 +12,7 @@ typedef enum{
 typedef struct{
 	bool buttonLED;
 	bool buttonFireExtinguisher;
-	bool buttonDisplay;
+	bool buttonDisplay; // not used
 	uint32_t buttonPressedStartTime;
 	bool buttonAlreadyUsed;
 } button_t;
