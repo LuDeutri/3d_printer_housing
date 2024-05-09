@@ -10,7 +10,7 @@
  *
  * While the start timer is running, the procedure can be stopped by pressing the fire button for
  * FIRE_EXTINGUISHER_EXIT_BTN_PRESS_TIME seconds.
- * If it was stopped one time a power cycle is required to activate the fire start timer again.
+ * If it was stopped one time this has to be reseted with pressing the button again. Otherwise fire wont be detected again.
  */
 
 #include "config.h"
@@ -31,6 +31,11 @@ typedef struct{
 }fireExtinguisher_t;
 extern fireExtinguisher_t fireExtinguisher;
 
+typedef enum{
+	BUTTON_STOPPED_NONE,
+	BUTTON_STOPPED_MUTE,
+	BUTTON_STOPPED_SEQUENCE
+}fireButtonState_t;
 
 void fireExtinguisher_init();
 
@@ -79,11 +84,8 @@ void beeperStart();
  */
 void beeperStop();
 
-/*
- * Set the valve control gpio for the co2 gas. The used variable can be set to true via a button or
- * an detected fire.
- * This method is called in fireExtinguisher_update()
- */
-void valve_update();
+void valveOpen();
+
+void valveClose();
 
 #endif
