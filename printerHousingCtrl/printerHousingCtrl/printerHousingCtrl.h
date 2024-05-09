@@ -6,7 +6,6 @@
 #include "button.h"
 #include "config.h"
 #include "fireExtinguisher.h"
-#include "displayScreensaver.h"
 #include "printer.h"
 
 void printerHousingCtrl_init();
