@@ -1,7 +1,7 @@
 #include "fireExtinguisher.h"
 
 fireExtinguisher_t fireExtinguisher;
-bool buttonStopped = false;
+fireButtonState_t buttonStopped = BUTTON_STOPPED_NONE;
 
 void fireExtinguisher_init(){
 	fireExtinguisher.sequenceStartTime = 0;
@@ -10,85 +10,98 @@ void fireExtinguisher_init(){
 	fireExtinguisher.standby = false;
 
 	fireExtinguisher.beeper.beeperActive = false;
-
 	HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, LOW); // Init beeper off
 }
 
 void fireExtinguisher_update(){
 	beeper_update(); // Update Beeper
-	valve_update();	 // Update valve
+
+	// Reset saved button state by pressing the fire button again after an detected fire was stopped by pressing the fire button
+	if (getButtonState(BUTTON_FIRE_EXTINGUISHER) && buttonStopped == BUTTON_STOPPED_SEQUENCE){
+		buttonStopped = BUTTON_STOPPED_NONE;
+		return;
+	}
 
 	// If a detected fire alarm was stopped by pressing the fire button, it must not be
 	// possible to start the alarm again
-	if(buttonStopped)
+	if(buttonStopped == BUTTON_STOPPED_SEQUENCE)
 		return;
 
-	// Activate fire extinguisher sequence if fire is detected or the button is pressed
-	if (getButtonState(BUTTON_FIRE_EXTINGUISHER) || gasSensor.fireDetected)
+	// Activate fire extinguisher sequence if fire is detected
+	if ((getButtonState(BUTTON_FIRE_EXTINGUISHER) || gasSensor.fireDetected) && fireExtinguisher.sequenceStartTime == 0){
 		fireExtinguisherStartCount();
+		return;
+	}
 
 	// Stop if there is no fire detected
 	if(fireExtinguisher.sequenceStartTime == 0)
 		return;
 
-	// Check if fire button is pressed to stop the alarm sequence
-	if(getButtonState(BUTTON_FIRE_EXTINGUISHER) && getButtonPressedTime() > FIRE_EXTINGUISHER_EXIT_BTN_PRESS_TIME){
-		fireExtinguisherStop();
-		buttonStopped = true;
+	// Press the fire butto one time to deactivate the beeper
+	// Press a second time, to deactivate the extinguisher sequence
+	if (getButtonState(BUTTON_FIRE_EXTINGUISHER)) {
+		if (buttonStopped == BUTTON_STOPPED_NONE) {
+			beeperStop();
+			buttonStopped = BUTTON_STOPPED_MUTE;
+		} else {
+			fireExtinguisherStop();
+			buttonStopped = BUTTON_STOPPED_SEQUENCE;
+			return;
+		}
 	}
 
 	// Start extinguishing action after defined time
-	if(HAL_GetTick() > fireExtinguisher.sequenceStartTime + FIRE_EXTINGUISHER_TRIGGER_TIMER)
+	if(HAL_GetTick() > (fireExtinguisher.sequenceStartTime + FIRE_EXTINGUISHER_TRIGGER_TIMER))
 		fireExtinguisherActivate();
 
 	// Reduce the beeper and the LED fade after a defined time, valve stays opened
-	if(HAL_GetTick() > fireExtinguisher.activatingTime + TIME_REDUCE_BEEPER)
+	if(HAL_GetTick() > fireExtinguisher.activatingTime + TIME_REDUCE_BEEPER && fireExtinguisher.activatingTime != 0)
 		fireExtinguisher.standby = true;
 		// Note: Beeper change is handled in beeper_update()
 		// Note: LEDs going into off state handled in printerHousingCtrl.c
 }
 
 void fireExtinguisherStartCount(){
-	if(buttonStopped) // If the fire countdown has already stopped by pressing the button, dont start again
+	if(buttonStopped != BUTTON_STOPPED_NONE) // If the fire countdown has stopped by pressing the button, dont start again
+		return;
+	if(fireExtinguisher.sequenceStartTime != 0) // Alarm already started
 		return;
 
-	fireExtinguisher.sequenceStartTime = HAL_GetTick(); // Countdown starts
-
+	fireExtinguisher.sequenceStartTime = HAL_GetTick(); // Set time countdown starts
 	beeperStart(); // Activate Beeper
 
-	// Note: Now leds are fading red handled in printerHousingCtrl.c)
+	// Now LEDs are fading red handled in led.c
 }
 
 void fireExtinguisherActivate(){
-	// Set time valve opened
-	fireExtinguisher.activatingTime = HAL_GetTick();
+	if(fireExtinguisher.activatingTime != 0) // Stop if extinguisher is already activated
+		return;
 
-	// Shutdown printer
-	printerShutdown();
-
-	// Open valve
-	fireExtinguisher.valveState = OPENED;
+	fireExtinguisher.activatingTime = HAL_GetTick(); // Set time valve opened
+	printerShutdown(); 	// Shutdown printer
+	valveOpen(); // Open valve
 }
 
 void fireExtinguisherStop(){
 	fireExtinguisher.sequenceStartTime = fireExtinguisher.activatingTime = 0; // Reset timer
-	beeperStop(); 							// Stop beeper
-	fireExtinguisher.valveState = CLOSED;	// Close valve if opened
+	beeperStop(); 	// Stop beeper
+	valveClose();	// Close valve if opened
 }
 
 void beeper_update(){
 	// If beeper should not be active, mute and return the method
-	if (fireExtinguisher.beeper.beeperActive){
+	if (!fireExtinguisher.beeper.beeperActive){
 		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, LOW);
 		return;
 	}
 
 	// First beep fast, after TIME_REDUCE_BEEPER beep every minute for one second
-	if (fireExtinguisher.sequenceStartTime < HAL_GetTick() + FIRE_EXTINGUISHER_TRIGGER_TIMER)
+	if (fireExtinguisher.sequenceStartTime != 0 && !fireExtinguisher.valveState)
 		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 2000 < 1000);
-	else if(fireExtinguisher.activatingTime < HAL_GetTick() + TIME_REDUCE_BEEPER)
+	else if (!fireExtinguisher.standby)
 		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 600 < 300);
 	else
+		// After TIME_REDUCE_BEEPER beep only one second in one minute
 		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 60000 < 1000);
 }
 
@@ -100,8 +113,12 @@ void beeperStop(){
 	fireExtinguisher.beeper.beeperActive = false;
 }
 
-void valve_update(){
-	HAL_GPIO_WritePin(valve_open_GPIO_Port, valve_open_Pin, fireExtinguisher.valveState);
+void valveOpen(){
+	HAL_GPIO_WritePin(valve_open_GPIO_Port, valve_open_Pin, true);
+	fireExtinguisher.valveState = OPENED;
 }
 
-
+void valveClose(){
+	HAL_GPIO_WritePin(valve_open_GPIO_Port, valve_open_Pin, false);
+	fireExtinguisher.valveState = CLOSED;
+}
