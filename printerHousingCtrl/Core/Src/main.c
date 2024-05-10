@@ -299,8 +299,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(debug_led_GPIO_Port, debug_led_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, beeper_Pin|valve_open_Pin|nScreensaver_Pin|unused_0_Pin
-                          |unused_1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, beeper_Pin|valve_open_Pin|unused_0_Pin|unused_1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, printer_sply_ctrl_Pin|unused_2_Pin, GPIO_PIN_RESET);
@@ -318,18 +317,16 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : beeper_Pin valve_open_Pin nScreensaver_Pin unused_0_Pin
-                           unused_1_Pin */
-  GPIO_InitStruct.Pin = beeper_Pin|valve_open_Pin|nScreensaver_Pin|unused_0_Pin
-                          |unused_1_Pin;
+  /*Configure GPIO pins : beeper_Pin valve_open_Pin unused_0_Pin unused_1_Pin */
+  GPIO_InitStruct.Pin = beeper_Pin|valve_open_Pin|unused_0_Pin|unused_1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : gas_sens_digital_Pin pi_displayScreensaver_Pin pi_printer_sply_ctrl_Pin pi_led_data_1_Pin
+  /*Configure GPIO pins : gas_sens_digital_Pin unused_4_Pin pi_printer_sply_ctrl_Pin pi_led_data_1_Pin
                            pi_led_data_2_Pin pi_led_data_3_Pin */
-  GPIO_InitStruct.Pin = gas_sens_digital_Pin|pi_displayScreensaver_Pin|pi_printer_sply_ctrl_Pin|pi_led_data_1_Pin
+  GPIO_InitStruct.Pin = gas_sens_digital_Pin|unused_4_Pin|pi_printer_sply_ctrl_Pin|pi_led_data_1_Pin
                           |pi_led_data_2_Pin|pi_led_data_3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;

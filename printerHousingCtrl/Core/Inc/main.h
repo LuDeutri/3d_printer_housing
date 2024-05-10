@@ -71,8 +71,6 @@ void Error_Handler(void);
 #define beeper_GPIO_Port GPIOA
 #define valve_open_Pin GPIO_PIN_6
 #define valve_open_GPIO_Port GPIOA
-#define nScreensaver_Pin GPIO_PIN_7
-#define nScreensaver_GPIO_Port GPIOA
 #define gas_sens_analog_Pin GPIO_PIN_1
 #define gas_sens_analog_GPIO_Port GPIOB
 #define gas_sens_digital_Pin GPIO_PIN_10
@@ -85,8 +83,8 @@ void Error_Handler(void);
 #define unused_1_GPIO_Port GPIOA
 #define unused_2_Pin GPIO_PIN_3
 #define unused_2_GPIO_Port GPIOB
-#define pi_displayScreensaver_Pin GPIO_PIN_4
-#define pi_displayScreensaver_GPIO_Port GPIOB
+#define unused_4_Pin GPIO_PIN_4
+#define unused_4_GPIO_Port GPIOB
 #define pi_printer_sply_ctrl_Pin GPIO_PIN_6
 #define pi_printer_sply_ctrl_GPIO_Port GPIOB
 #define pi_led_data_1_Pin GPIO_PIN_7
