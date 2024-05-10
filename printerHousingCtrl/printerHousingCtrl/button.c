@@ -6,7 +6,7 @@ static button_t buttons;
 void button_init(){
 	buttons.buttonFireExtinguisher = false;
 	buttons.buttonLED = false;
-	buttons.buttonDisplay = false;
+	buttons.buttonPrinterSply = false;
 	buttons.buttonPressedStartTime = 0;
 	buttons.buttonAlreadyUsed = false;
 }
@@ -14,7 +14,7 @@ void button_init(){
 void button_update(){
 	buttonReadState();
 
-	if((buttons.buttonDisplay || buttons.buttonFireExtinguisher || buttons.buttonLED))
+	if((buttons.buttonPrinterSply || buttons.buttonFireExtinguisher || buttons.buttonLED))
 		if (buttons.buttonPressedStartTime == 0)
 			buttons.buttonPressedStartTime = HAL_GetTick();
 		else
@@ -30,7 +30,7 @@ void buttonReadState(){
 #pragma warning(push, 0)
 	if(buttons.buttonFireExtinguisher = !HAL_GPIO_ReadPin(btn_fire_ExGuisher_GPIO_Port, btn_fire_ExGuisher_Pin));
 	else if(buttons.buttonLED = !HAL_GPIO_ReadPin(btn_led_GPIO_Port, btn_led_Pin));
-	else buttons.buttonDisplay = !HAL_GPIO_ReadPin(btn_display_GPIO_Port, btn_display_Pin);
+	else buttons.buttonPrinterSply = !HAL_GPIO_ReadPin(btn_PrinterSply_GPIO_Port, btn_PrinterSply_Pin);
 #pragma warning(pop)
 }
 
@@ -43,8 +43,8 @@ bool getButtonState(buttons_t button){
 		return buttons.buttonFireExtinguisher;
 	case BUTTON_LED:
 		return buttons.buttonLED;
-	case BUTTON_DISPLAY:
-		return buttons.buttonDisplay;
+	case BUTTON_PRINTER_SPLY:
+		return buttons.buttonPrinterSply;
 	default:
 		// You should never be here
 		return false;

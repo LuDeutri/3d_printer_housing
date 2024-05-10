@@ -2,6 +2,7 @@
 #define PRINTER_H_
 
 #include "config.h"
+#include "button.h"
 
 typedef struct{
 	bool splyCtrl;

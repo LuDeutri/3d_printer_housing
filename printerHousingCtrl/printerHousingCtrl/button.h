@@ -4,15 +4,15 @@
 #include "config.h"
 
 typedef enum{
-	BUTTON_DISPLAY,
 	BUTTON_LED,
+	BUTTON_PRINTER_SPLY,
 	BUTTON_FIRE_EXTINGUISHER
 } buttons_t;
 
 typedef struct{
 	bool buttonLED;
 	bool buttonFireExtinguisher;
-	bool buttonDisplay; // not used
+	bool buttonPrinterSply;
 	uint32_t buttonPressedStartTime;
 	bool buttonAlreadyUsed;
 } button_t;

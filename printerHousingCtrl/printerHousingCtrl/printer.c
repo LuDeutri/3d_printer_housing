@@ -15,6 +15,9 @@ void printer_update(){
 	// Ctrl sply via raspberry pi in normal operation
 	if(!printer.ingoreRaspiInput)
 		printer.splyCtrl = printer.splyCtrlRaspiInput;
+	// Start printer if button is pressed
+	if(getButtonState(BUTTON_PRINTER_SPLY))
+		printer.splyCtrl = true;
 
 	// Update output pin
 	HAL_GPIO_WritePin(printer_sply_ctrl_GPIO_Port, printer_sply_ctrl_Pin, printer.splyCtrl);
