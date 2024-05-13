@@ -59,14 +59,18 @@
 #define FIRE_EXTINGUISHER_TRIGGER_TIMER 20000 		// Time until co2 valve is opening
 #define FIRE_EXTINGUISHER_EXIT_BTN_PRESS_TIME 1	// If the Btn is pressed over that limit during fire extinguisher is active, extinguisher will be stopped
 #define ERR_DELAY_FIRE_DETECTED 2000
-#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED 100 		// TODO define fire detected threshold for analog value
+
+// Gas sensor
+#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED 1000 		// TODO define fire detected threshold for analog value
+#define GAS_SENSOR_ADC &hadc1
+
 
 // Beeper
 #define TIME_REDUCE_BEEPER 120000 				// beeper will be reduced
 
 // Gas sensor
 extern ADC_HandleTypeDef hadc1;
-#define ENABLE_ANALOG_GAS_VALUE 1 // 0: digital value is used, 1: analog value is used
+#define ENABLE_ANALOG_GAS_VALUE 0 // 0: digital value is used, 1: analog value is used
 
 // ########################################
 // Software configuration end

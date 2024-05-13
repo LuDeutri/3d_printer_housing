@@ -26,14 +26,14 @@ void gasSensor_update(){
 }
 
 void gasSensorReadData(){
-	if(HAL_GetTick() < 30000) // Wait 10 seconds to calibrate the sensor first
+	if(HAL_GetTick() < 30000) // Wait 30 seconds to calibrate the sensor first
 		return;
 
 	gasSensor.gasSensDig = HAL_GPIO_ReadPin(gas_sens_digital_GPIO_Port, gas_sens_digital_Pin);
 
 	if (ENABLE_ANALOG_GAS_VALUE){
-		HAL_ADC_Start(&hadc1);
-		HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-		gasSensor.gasSensAnalog = HAL_ADC_GetValue(&hadc1);
+		HAL_ADC_Start(GAS_SENSOR_ADC);
+		HAL_ADC_PollForConversion(GAS_SENSOR_ADC, HAL_MAX_DELAY);
+		gasSensor.gasSensAnalog = HAL_ADC_GetValue(GAS_SENSOR_ADC);
 	}
 }
