@@ -324,19 +324,25 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : gas_sens_digital_Pin unused_4_Pin pi_printer_sply_ctrl_Pin pi_led_data_1_Pin
-                           pi_led_data_2_Pin pi_led_data_3_Pin */
-  GPIO_InitStruct.Pin = gas_sens_digital_Pin|unused_4_Pin|pi_printer_sply_ctrl_Pin|pi_led_data_1_Pin
-                          |pi_led_data_2_Pin|pi_led_data_3_Pin;
+  /*Configure GPIO pin : gas_sens_digital_Pin */
+  GPIO_InitStruct.Pin = gas_sens_digital_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(gas_sens_digital_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : printer_sply_ctrl_Pin unused_2_Pin */
   GPIO_InitStruct.Pin = printer_sply_ctrl_Pin|unused_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : unused_4_Pin pi_printer_sply_ctrl_Pin pi_led_data_1_Pin pi_led_data_2_Pin
+                           pi_led_data_3_Pin */
+  GPIO_InitStruct.Pin = unused_4_Pin|pi_printer_sply_ctrl_Pin|pi_led_data_1_Pin|pi_led_data_2_Pin
+                          |pi_led_data_3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
