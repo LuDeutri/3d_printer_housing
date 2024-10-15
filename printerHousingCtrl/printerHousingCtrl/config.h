@@ -56,12 +56,14 @@
 #define NUM_LED_PRINTER_ROOM NUM_LED_STRIP_LEFT+NUM_LED_STRIP_TOP+NUM_LED_STRIP_RIGHT
 
 // Fire extinguisher
-#define FIRE_EXTINGUISHER_TRIGGER_TIMER 20000 		// Time until co2 valve is opening
+#define FIRE_EXTINGUISHER_TRIGGER_TIMER 15000 		// Time until co2 valve is opening
 #define FIRE_EXTINGUISHER_EXIT_BTN_PRESS_TIME 1	// If the Btn is pressed over that limit during fire extinguisher is active, extinguisher will be stopped
 #define ERR_DELAY_FIRE_DETECTED 2000
 
 // Gas sensor
-#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED 1000 		// TODO define fire detected threshold for analog value
+#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED 1200 		// Threshold for analog value to detect an fire
+#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED_ALARM 2000	// Threshold for analog value to skip the activation sequence and activate the extinguisher immediately
+#define GAS_SENSOR_CALIBRATION_TIME	300000				// 5 minutes before the data of gas sensor is used
 #define GAS_SENSOR_ADC &hadc1
 
 
@@ -70,7 +72,7 @@
 
 // Gas sensor
 extern ADC_HandleTypeDef hadc1;
-#define ENABLE_ANALOG_GAS_VALUE 0 // 0: digital value is used, 1: analog value is used
+#define ENABLE_ANALOG_GAS_VALUE 1 // 0: digital value is used, 1: analog value is used
 
 // ########################################
 // Software configuration end
