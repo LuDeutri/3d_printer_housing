@@ -12,7 +12,7 @@
 #include "fireExtinguisher.h"
 
 typedef struct{
-	float gasSensAnalog;
+	uint16_t gasSensAnalog;
 	bool gasSensDig;
 	bool fireDetected;
 	uint32_t fireDetectedTime;
