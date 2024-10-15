@@ -74,6 +74,7 @@ void fireExtinguisherStartCount(){
 }
 
 void fireExtinguisherActivate(){
+	beeperStart();
 	if(fireExtinguisher.activatingTime != 0) // Stop if extinguisher is already activated
 		return;
 
