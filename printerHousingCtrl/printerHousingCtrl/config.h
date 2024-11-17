@@ -61,9 +61,9 @@
 #define ERR_DELAY_FIRE_DETECTED 2000
 
 // Gas sensor
-#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED 1200 		// Threshold for analog value to detect an fire
-#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED_ALARM 2000	// Threshold for analog value to skip the activation sequence and activate the extinguisher immediately
-#define GAS_SENSOR_CALIBRATION_TIME	300000				// 5 minutes before the data of gas sensor is used
+#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED 2000 		// Threshold for analog value to detect an fire
+#define THRESHOLD_GAS_SENSOR_FIRE_DETECTED_ALARM 3000	// Threshold for analog value to skip the activation sequence and activate the extinguisher immediately
+#define GAS_SENSOR_CALIBRATION_TIME	10000//300000				// 5 minutes before the data of gas sensor is used
 #define GAS_SENSOR_ADC &hadc1
 
 
