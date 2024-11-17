@@ -100,7 +100,7 @@ void beeper_update(){
 	if (fireExtinguisher.sequenceStartTime != 0 && !fireExtinguisher.valveState)
 		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 2000 < 1000);
 	else if (!fireExtinguisher.standby)
-		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 600 < 300);
+		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 1000 < 500);
 	else
 		// After TIME_REDUCE_BEEPER beep only one second in one minute
 		HAL_GPIO_WritePin(beeper_GPIO_Port, beeper_Pin, HAL_GetTick() % 60000 < 1000);
